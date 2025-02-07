@@ -22,8 +22,7 @@ def run():
         "Stealth SKU": "Yes",
         "Visibility": "Not Visible Individually",
         "Serial Sku": "No",
-        "Retired Sku": "No",
-        "Is Fulfillment SKU": "Magento Only"
+        "Retired Sku": "No"
     }
 
     def load_file(uploaded_file):
