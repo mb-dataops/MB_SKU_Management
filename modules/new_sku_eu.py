@@ -13,8 +13,8 @@ def run():
         "Product Name", "Manufacturer Sku EU", "Color Name", "Color Number", "MBID", "Manufacturer", "Price Range",
         "Commercial & Residential", "Attribute Set Code", "HS Code", "Taxonomy Node", "California Prop 65", "Retired Sku",
         "Serial Sku", "Stealth SKU", "Indoor & Outdoor", "Item Type", "Description", "Color Variety",
-        "Color Saturation", "Primary Color Family", "Secondary Color Family", "Pattern", "Pattern Scale",
-        "Metallic Color", "Stone Pattern", "Style", "Color Term", "Motif", "Customs Value", "Commodity Description", 
+        "Color Saturation", "Primary Color Family", "Secondary Color Family", 
+        "Metallic Color", "Stone Pattern", "Customs Value", "Commodity Description", 
         "Channel", "Country Permissions", "Country Of Manufacturer"
     ]
     

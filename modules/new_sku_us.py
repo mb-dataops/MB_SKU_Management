@@ -25,8 +25,8 @@ def run():
         "Product Name", "Manufacturer Sku", "Color Name", "Color Number", "MBID", "Manufacturer", "Price Range",
         "Commercial & Residential", "Attribute Set Code", "Taxonomy Node", "California Prop 65", "Retired Sku",
         "Serial Sku", "Stealth SKU", "Indoor & Outdoor", "Set as New SKU", "Item Type", "Description", "Color Variety",
-        "Color Saturation", "Primary Color Family", "Secondary Color Family", "Pattern", "Pattern Scale",
-        "Metallic Color", "Stone Pattern", "Style", "Color Term", "Motif"
+        "Color Saturation", "Primary Color Family", "Secondary Color Family",
+        "Metallic Color", "Stone Pattern"
     ]
     
     NECESSARY_FIELDS = [
