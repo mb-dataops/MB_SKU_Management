@@ -38,7 +38,7 @@ def run():
             return None
 
     # File Upload Section
-    with st.expander("📋 Upload Instructions", expanded=False):
+    with st.expander("📋 Upload Instructions (Click to expand)", expanded=False):
         st.markdown("""
         **Required Files:**
         - Stealth SKU Import File (Excel/CSV)
@@ -47,6 +47,24 @@ def run():
         **Essential Check Before Uploading:**
         - Ensure 'Sample SKU' field exist in the SKU List File
         """)
+        
+    #  Validation Overview Section
+    with st.expander("🛠️ What This Validation Does (Click to expand)", expanded=False):
+        st.markdown("""
+        **This automation ensures:**
+    
+        ✅ **Template Compliance**  
+        _Ensures the import file meets Stealth SKU template requirements_
+        
+        ✅ **Data Integrity**  
+        _Validates expected field values in the import file_
+        
+        ✅ **SKU Reconciliation**  
+        _Verifies alignment between Sample SKUs and Manufacturer SKUs in the SKU list and the import file_
+        """)
+        
+        # Add some visual spacing
+        st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
     with col1:
