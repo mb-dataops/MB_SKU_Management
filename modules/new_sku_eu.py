@@ -149,6 +149,23 @@ def run():
         
         st.markdown("---")
         st.caption("💡 Tip: Use Excel's 'Find & Replace' to standardize column names before uploading")
+        
+    with st.expander("🛠️ What This Validation Does (Click to expand)", expanded=False):
+        st.markdown("""
+         
+        ✅ **Template Compliance**  
+        _Ensures the import file meets New SKU template requirements_
+        
+        ✅ **SKU Comparison**: 
+        _Identifies missing or extra SKUs in the import file compared to the SKU list_
+        
+        ✅ **Field Value Validation**: 
+        _Compares key attributes like `Product Name`, `Color Name`, `Price Range` and more to detect discrepancies_
+
+        📌 Use this tool to quickly identify discrepancies and ensure data accuracy before importing SKUs.
+        """)
+        # Add some visual spacing
+        st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
     
     # File uploaders
     main_file = st.file_uploader("Upload EU Import File", type=["xlsx", "csv"])

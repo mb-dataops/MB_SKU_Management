@@ -51,7 +51,6 @@ def run():
     #  Validation Overview Section
     with st.expander("🛠️ What This Validation Does (Click to expand)", expanded=False):
         st.markdown("""
-        **This automation ensures:**
     
         ✅ **Template Compliance**  
         _Ensures the import file meets Stealth SKU template requirements_
@@ -61,6 +60,8 @@ def run():
         
         ✅ **SKU Reconciliation**  
         _Verifies alignment between Sample SKUs and Manufacturer SKUs in the SKU list and the import file_
+        
+        📌 Use this tool to quickly identify discrepancies and ensure data accuracy before importing SKUs.
         """)
         
         # Add some visual spacing

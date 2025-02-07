@@ -214,6 +214,28 @@ def run():
         
         st.markdown("---")
         st.caption("💡 Tip: Use Excel's 'Find & Replace' to standardize column names before uploading")
+     
+     #  Validation Overview Section
+    with st.expander("🛠️ What This Validation Does (Click to expand)", expanded=False):
+        st.markdown("""
+         
+        ✅ **Template Compliance**  
+        _Ensures the import file meets New SKU template requirements_
+        
+        ✅ **SKU Comparison**: 
+        _Identifies missing or extra SKUs in the import file compared to the SKU list_
+        
+        ✅ **Field Value Validation**: 
+        _Compares key attributes like `CatalogItemID`, `Product Name`, `Color Name`, and more to detect discrepancies_
+        
+        ✅ **Primary Child Check**: 
+        _Flags missing values in the `Primary Child` column and suggests corrections_
+
+        📌 Use this tool to quickly identify discrepancies and ensure data accuracy before importing SKUs.
+        """)
+        # Add some visual spacing
+        st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+    
     
     # File uploaders
     main_file = st.file_uploader("Upload the Import File (Excel/CSV)", type=["xlsx", "csv"])
