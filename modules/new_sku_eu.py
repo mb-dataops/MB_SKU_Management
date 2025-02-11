@@ -18,6 +18,17 @@ def run():
         "Channel", "Country Permissions", "Country Of Manufacturer"
     ]
     
+    EXPECTED_VALUES = {
+        "Product Websites": "base",
+        "Hide From Product View EU": "Yes",
+        "Stealth SKU": "No",
+        "Visibility EU": "Catalog",
+        "Serial Sku": "No",
+        "Retired Sku": "No",
+        "Customs Value": "1",
+        "Channel": "Europe"
+    }
+    
     NECESSARY_FIELDS = [
         "Commercial & Residential", "Color Name", "Color Number", "Price Range", 
         "Indoor & Outdoor", "Product Name"
@@ -34,6 +45,20 @@ def run():
             st.error("Missing attributes detected:")
             for attr in missing_attributes:
                 st.write(f"- {attr}")   
+                
+    def check_expected_values(df, expected_values):
+        """Validate field values match expected requirements"""
+        errors = {}
+        for field, expected in expected_values.items():
+            if field in df.columns:
+                # Find mismatches (case-sensitive comparison)
+                mismatches = df[df[field].astype(str) != expected]
+                if not mismatches.empty:
+                    errors[field] = {
+                        'expected': expected,
+                        'invalid_entries': mismatches[["Manufacturer Sku EU",field]]
+                    }
+        return errors
 
     def load_file(uploaded_file):
         """Load uploaded file into DataFrame"""
@@ -48,6 +73,24 @@ def run():
         except Exception as e:
             st.error(f"Error loading file: {e}")
             return None
+        
+    def check_primary_child_column(df):
+        """Check for empty values in Primary Child column and alert the user."""
+        if "Primary Child" in df.columns and "Material Bank SKU" in df.columns:
+            empty_primary_child = df[df["Primary Child"].isna()]
+
+            if not empty_primary_child.empty:
+                st.warning("⚠️ Empty values detected in 'Primary Child' column!")
+                st.write("To maintain uniformity, consider adding 'No' for non-primary child SKUs.")
+
+                # Convert 'Material Bank SKU' to string to prevent number formatting issues
+                empty_primary_child = df[df["Primary Child"].isna()].copy()
+                empty_primary_child["Material Bank SKU"] = empty_primary_child["Material Bank SKU"].astype(str)
+                
+                st.dataframe(empty_primary_child[["Material Bank SKU", "Primary Child"]])
+                
+            else:
+                st.info("✅ No action needed! Primary Child field is populated.")
         
 
     def review_field_values(main_df, sku_df, match_field, necessary_fields):
@@ -159,8 +202,14 @@ def run():
         ✅ **SKU Comparison**: 
         _Identifies missing or extra SKUs in the import file compared to the SKU list_
         
-        ✅ **Field Value Validation**: 
-        _Compares key attributes like `Product Name`, `Color Name`, `Price Range` and more to detect discrepancies_
+        ✅ **Field Value Comparison**: 
+        _Cross-compares key attributes like `Product Name`, `Color Name`, `Price Range` and more to detect discrepancies_
+        
+        ✅ **Value Compliance**:
+        _Validates critical fields contain exact required values (e.g., 'Stealth SKU' must be 'No')_
+        
+        ✅ **Primary Child Check**: 
+        _Flags missing values in the `Primary Child` column and suggests corrections_
 
         📌 Use this tool to quickly identify discrepancies and ensure data accuracy before importing SKUs.
         """)
@@ -180,10 +229,27 @@ def run():
             sku_df = load_file(sku_file)
 
         if main_df is not None and sku_df is not None:
-            # Attribute check
+            # 1. Attribute check
             st.write("### Required Attributes Check")
             check_attributes_in_excel(main_df, REQUIRED_ATTRIBUTES)
 
-            # Field comparison
+            # 2. Field comparison
             st.write("### Field Value Comparison")
             review_field_values(main_df, sku_df, "Manufacturer Sku EU", NECESSARY_FIELDS)
+            
+            # 3. Expected Values Check (NEW)
+            st.write("### Expected Values Validation")
+            value_errors = check_expected_values(main_df, EXPECTED_VALUES)
+            
+            if not value_errors:
+                st.success("✅ All expected values match requirements")
+            else:
+                st.error(f"Found {len(value_errors)} fields with invalid values")
+                for field, details in value_errors.items():
+                    with st.expander(f"Invalid {field} values", expanded=False):
+                        st.write(f"Expected Value: {details['expected']}")
+                        st.dataframe(details['invalid_entries'])
+                        
+            # 4. Check for empty 'Primary Child' values
+            st.write("### Primary Child Column Check")
+            check_primary_child_column(main_df)

@@ -96,7 +96,7 @@ def run():
                             invalid_counts += 1
                             with st.expander(f"⚠️ Invalid {field} values", expanded=False):
                                 st.write(f"Expected: {expected}")
-                                st.dataframe(invalid[["Material Bank SKU", field]])
+                                st.dataframe(invalid[["Manufacturer Sku", field]])
                 
                 if invalid_counts == 0:
                     st.success("✅ All field values match expected values")
