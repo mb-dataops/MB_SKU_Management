@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 from io import BytesIO
+import json
+from pathlib import Path
 
 """ Code structure:
 
@@ -190,6 +192,52 @@ def run():
                 
             else:
                 st.info("✅ No action needed! Primary Child field is populated.")
+                
+
+    def load_state_permission_brands():
+        """Load state permission required manufacturers"""
+        try:
+            path = Path(__file__).resolve().parent.parent / "constants" / "state_permission_brands.json"
+            with open(path) as f:
+                return json.load(f)
+        except FileNotFoundError:
+            st.error("State permission brand list not found")
+            st.error("Constants folder structure: " + str(Path(__file__).resolve()))
+            return []
+        except json.JSONDecodeError:
+            st.error("Invalid state permission brand list format")
+            return []
+
+    def validate_state_permissions(df, required_brands):
+        """Check state permission requirements"""
+        alerts = []
+        
+        # Check if manufacturer column exists
+        if "Manufacturer" not in df.columns:
+            return alerts
+        
+        # Find matching manufacturers
+        state_brand_mask = df["Manufacturer"].isin(required_brands)
+        state_brands = df[state_brand_mask]
+        
+        if not state_brands.empty:
+            # Check if State Permission column exists
+            if "State Permission" not in df.columns:
+                alerts.append({
+                    "type": "missing_column",
+                    "brands": state_brands["Manufacturer"].unique().tolist()
+                })
+            else:
+                # Check for empty values
+                invalid = state_brands[state_brands["State Permission"].isna() | 
+                                    (state_brands["State Permission"] == "")]
+                if not invalid.empty:
+                    alerts.append({
+                        "type": "missing_values",
+                        "data": invalid[["Material Bank SKU", "Manufacturer", "State Permission"]]
+                    })
+        
+        return alerts
 
 
     # Streamlit UI Components
@@ -257,6 +305,9 @@ def run():
         
         ✅ **Primary Child Check**: 
         _Flags missing values in the `Primary Child` column and suggests corrections_
+        
+        ✅ **State Permissions**:
+        _Ensure brands with state permissions have the "State Permission" field added and populated in the import file_
 
         📌 Use this tool to quickly identify discrepancies and ensure data accuracy before importing SKUs.
         """)
@@ -278,15 +329,15 @@ def run():
 
         if main_df is not None and sku_df is not None:
             # 1. Attribute check
-            st.write("### Required Attributes Check")
+            st.write("#### Required Attributes Check")
             check_attributes_in_excel(main_df, REQUIRED_ATTRIBUTES)
 
             # 2. Field comparison
-            st.write("### Field Value Comparison")
+            st.write("#### Field Value Comparison")
             review_field_values(main_df, sku_df, "Manufacturer Sku", NECESSARY_FIELDS)
             
             # 3. Expected Values Check (NEW)
-            st.write("### Expected Values Validation")
+            st.write("#### Expected Values Validation")
             value_errors = check_expected_values(main_df, EXPECTED_VALUES)
             
             if not value_errors:
@@ -299,5 +350,33 @@ def run():
                         st.dataframe(details['invalid_entries'])
             
             # 4. Check for empty 'Primary Child' values
-            st.write("### Primary Child Column Check")
+            st.write("#### Primary Child Column Check")
             check_primary_child_column(main_df)
+            
+            # 5. State Permission validation
+            st.write("#### State Permission Check")
+            try:
+                state_brands = load_state_permission_brands()
+                # First check if Manufacturer column exists
+                if "Manufacturer" in main_df.columns:
+                   has_state_brands = main_df["Manufacturer"].isin(state_brands).any()
+                   if has_state_brands:
+                        permission_alerts = validate_state_permissions(main_df, state_brands)
+
+                        # Display results
+                        if permission_alerts:
+                         st.warning("⚠️ State Permission Requirements")
+                         for alert in permission_alerts:
+                            if alert["type"] == "missing_column":
+                                st.error(f"Missing 'State Permission' column for the brand {(alert['brands'])} which has state permissions. Ensure the column is added and populated in the import file.")
+                            elif alert["type"] == "missing_values":
+                                st.error(f"Found {len(alert['data'])} records with missing State Permissions")
+                                with st.expander("View records needing updates"):
+                                    st.dataframe(alert["data"])
+                        else:
+                         st.success("✅ State permission requirements met for the brand")
+                   else:
+                     st.success("✅ This Brand doesn't have State Permissions. No further actions needed")         
+                    
+            except Exception as e:
+               st.error(f"State permission validation error: {str(e)}")
