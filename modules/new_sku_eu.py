@@ -33,6 +33,22 @@ def run():
         "Commercial & Residential", "Color Name", "Color Number", "Price Range", 
         "Indoor & Outdoor", "Product Name"
     ]
+    
+    NON_EMPTY_FIELDS = [
+    "Family Id", "Import Family Id", "US Hierarchy Category V2", "Material Bank SKU",
+    "Material Url", "Product Type", "Product Categories", "Batch Number", "Manufacturer Sku EU"
+    "Manufacturer Sku", "MBID", "Manufacturer", "Attribute Set Code", "Taxonomy Node", "California Prop 65", 
+    "Item Type", "Description", "Color Variety", "Color Saturation", "Primary Color Family",
+    "Country Of Manufacturer", "Commodity Description", "HS Code"
+    ]
+    
+    FIELD_PATTERNS = {
+        "Batch Number": {
+            "pattern": r'^Batch \d{3}$',  
+            "example": "Batch 001"       # Example format for error messages
+        }
+    }
+
 
     def check_attributes_in_excel(df, required_attributes):
         """Check for missing attributes in the uploaded file"""
@@ -45,6 +61,48 @@ def run():
             st.error("Missing attributes detected:")
             for attr in missing_attributes:
                 st.write(f"- {attr}")   
+                
+    def check_non_empty_fields(df, fields_to_check):
+        """Check for empty values in specified fields and alert the user."""
+        errors = {}
+        for field in fields_to_check:
+            if field in df.columns:
+                # Check for NaN or empty strings
+                empty_mask = df[field].isna() | (df[field].astype(str).str.strip() == '')
+                empty_rows = df[empty_mask]
+                if not empty_rows.empty:
+                    errors[field] = empty_rows
+        
+        if errors:
+            st.warning("⚠️ Empty values detected in required fields!")
+            for field, empty_df in errors.items():
+                with st.expander(f"Empty values in '{field}'"):
+                    st.write(f"Number of empty entries: {len(empty_df)}")
+                    if "Manufacturer Sku EU" in df.columns:
+                        st.dataframe(empty_df[["Manufacturer Sku EU", field]])
+                    else:
+                        st.dataframe(empty_df[field])
+        
+            
+    def validate_field_patterns(df):
+        """Validate field values against required patterns"""
+        errors = {}
+        for field, config in FIELD_PATTERNS.items():
+            if field in df.columns:
+                # Convert to string and strip whitespace for validation
+                cleaned_series = df[field].astype(str).str.strip()
+                
+                # Create mask for invalid entries
+                invalid_mask = ~cleaned_series.str.match(config["pattern"])
+                invalid_entries = df[invalid_mask]
+                
+                if not invalid_entries.empty:
+                    errors[field] = {
+                        "invalid": invalid_entries,
+                        "example": config["example"]
+                    }
+        return errors
+
                 
     def check_expected_values(df, expected_values):
         """Validate field values match expected requirements"""
@@ -250,6 +308,17 @@ def run():
                         st.write(f"Expected Value: {details['expected']}")
                         st.dataframe(details['invalid_entries'])
                         
-            # 4. Check for empty 'Primary Child' values
+            # 4. Check for required fields non-emptiness           
+            check_non_empty_fields(main_df, NON_EMPTY_FIELDS)
+            
+            #Check Batch number format
+            pattern_errors = validate_field_patterns(main_df)
+            if pattern_errors:
+                for field, details in pattern_errors.items():
+                    st.error(f"Invalid format in '{field}'. Expected format: {details['example']}")
+                    with st.expander(f"View invalid {field} entries"):
+                        st.dataframe(details["invalid"][["Manufacturer Sku EU", field]])
+                        
+            # 5. Check for empty 'Primary Child' values
             st.write("### Primary Child Column Check")
             check_primary_child_column(main_df)
