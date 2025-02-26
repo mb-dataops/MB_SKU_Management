@@ -37,6 +37,29 @@ def main():
             
         import sku_review
         sku_review.main()
+    elif st.session_state.page == 'sku_maintenance':
+        st.markdown("""
+            <style>
+                /* Hide GitHub icon */
+                [data-testid="stDecoration"] {
+                    display: none;
+                }
+                
+                /* Hide header */
+                [data-testid="stHeader"] {
+                    display: none;
+                }
+                
+                /* Hide menu button */
+                #MainMenu {
+                    visibility: hidden;
+                }
+
+            </style>
+            """, unsafe_allow_html=True)
+        import sku_maintenance
+        sku_maintenance.main()
+        
 
 def show_home_page():
     st.markdown("""
@@ -91,6 +114,10 @@ def show_home_page():
 
     with cols[1]:
         st.button("🛠️ SKU Maintenance (Coming Soon)", disabled=True)
+        # Uncomment the following lines and comment out the above line when turning on the visibility logic for team
+        # if st.button("🛠️ SKU Maintenance", help="Begin SKU maintenances"):
+        #     st.session_state.page = 'sku_maintenance'
+        #     st.rerun()
         
     with cols[2]:
         st.button("🔍 Review AC Fields (Coming Soon)", disabled=True)

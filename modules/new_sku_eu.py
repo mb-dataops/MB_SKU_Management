@@ -44,8 +44,8 @@ def run():
     
     FIELD_PATTERNS = {
         "Batch Number": {
-            "pattern": r'^Batch \d{3}(?:-\d{2})?$',
-            "example": "Batch 001 or Batch 001-01"       # Example format for error messages
+            "pattern": r'^Batch \d{3}(?:-\d{2})?$',  
+            "example": "Batch 001 or Batch 001-01"      # Example format for error messages
         }
     }
 
