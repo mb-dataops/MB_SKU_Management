@@ -113,11 +113,10 @@ def show_home_page():
             st.rerun()
 
     with cols[1]:
-        st.button("🛠️ SKU Maintenance (Coming Soon)", disabled=True)
-        # Uncomment the following lines and comment out the above line when turning on the visibility logic for team
-        # if st.button("🛠️ SKU Maintenance", help="Begin SKU maintenances"):
-        #     st.session_state.page = 'sku_maintenance'
-        #     st.rerun()
+        #st.button("🛠️ SKU Maintenance (Coming Soon)", disabled=True)
+        if st.button("🛠️ SKU Maintenance", help="Begin SKU maintenances"):
+            st.session_state.page = 'sku_maintenance'
+            st.rerun()
         
     with cols[2]:
         st.button("🔍 Review AC Fields (Coming Soon)", disabled=True)
