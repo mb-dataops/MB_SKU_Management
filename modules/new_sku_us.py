@@ -28,7 +28,7 @@ def run():
         "Commercial & Residential", "Attribute Set Code", "Taxonomy Node", "California Prop 65", "Retired Sku",
         "Serial Sku", "Stealth SKU", "Indoor & Outdoor", "Set as New SKU", "Item Type", "Description", "Color Variety",
         "Color Saturation", "Primary Color Family", "Secondary Color Family",
-        "Metallic Color", "Stone Pattern"
+        "Metallic Color", "Stone Pattern", "Sample Type"
     ]
     
     EXPECTED_VALUES = {
@@ -50,7 +50,7 @@ def run():
     "Family Id", "Import Family Id", "US Hierarchy Category V2", "Material Bank SKU",
     "Material Url", "Product Type", "Product Categories", "Batch Number", 
     "Manufacturer Sku", "MBID", "Manufacturer", "Attribute Set Code", "Taxonomy Node", "California Prop 65", 
-    "Item Type", "Description", "Color Variety", "Color Saturation", "Primary Color Family"
+    "Item Type", "Description", "Color Variety", "Color Saturation", "Primary Color Family", "Sample Type"
     ]
     
     FIELD_PATTERNS = {

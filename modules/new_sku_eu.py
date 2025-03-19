@@ -15,7 +15,7 @@ def run():
         "Serial Sku", "Stealth SKU", "Indoor & Outdoor", "Item Type", "Description", "Color Variety",
         "Color Saturation", "Primary Color Family", "Secondary Color Family", 
         "Metallic Color", "Stone Pattern", "Customs Value", "Commodity Description", 
-        "Channel", "Country Permissions", "Country Of Manufacturer"
+        "Channel", "Country Permissions", "Country Of Manufacturer", "Sample Type"
     ]
     
     EXPECTED_VALUES = {
@@ -39,7 +39,7 @@ def run():
     "Material Url", "Product Type", "Product Categories", "Batch Number", "Manufacturer Sku EU"
     "Manufacturer Sku", "MBID", "Manufacturer", "Attribute Set Code", "Taxonomy Node", "California Prop 65", 
     "Item Type", "Description", "Color Variety", "Color Saturation", "Primary Color Family",
-    "Country Of Manufacturer", "Commodity Description", "HS Code"
+    "Country Of Manufacturer", "Commodity Description", "HS Code", "Sample Type"
     ]
     
     FIELD_PATTERNS = {
