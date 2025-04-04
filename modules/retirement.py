@@ -64,7 +64,9 @@ def run():
     with st.expander("📋 **Upload Instructions (Click to Expand)**", expanded=False):
         st.markdown("""
         ### Essential Checks Before Uploading:
+        
         ⚠️ **Important:** Field Name Consistency
+        
         Ensure the primary identifier field matches exactly in both files
         """)
 
