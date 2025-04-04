@@ -1,7 +1,9 @@
 # SKU_Maintenance.py
 import streamlit as st
 from modules.visibility import run as run_visibility
-# from modules.retirement import run as run_retirement
+from modules.retirement import run as run_retirement
+from modules.primarychild import run as run_primarychange
+from modules.filterRecord import run as run_filter
 # from modules.reenable import run as run_reenable
 
 def main():
@@ -45,7 +47,7 @@ def main():
         """, unsafe_allow_html=True)
         nav_choice = st.radio(
             "Select Section:",
-            options=["Visibility", "SKU Retirement", "Re-enable SKUs"],
+            options=["Visibility", "SKU Retirement", "Re-enable SKUs", "Change Primary Child", "Filter Records"],
             index=0
         )
         st.markdown("""
@@ -62,9 +64,16 @@ def main():
         st.subheader("Visibility Section")
         run_visibility()
     elif nav_choice == "SKU Retirement":
-        st.info('Currently under work', icon="ℹ️")
+        st.subheader("SKU Retirement Section")
+        run_retirement()
     elif nav_choice == "Re-enable SKUs":
         st.info('Currently under work', icon="ℹ️")
+    elif nav_choice == "Change Primary Child":
+        st.subheader("Primary Child Updating Template")
+        run_primarychange()
+    elif nav_choice == "Filter Records":
+        st.subheader("Raw Record Filtering")
+        run_filter()
     
 if __name__ == "__main__":
     main()
