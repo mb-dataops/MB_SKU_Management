@@ -9,7 +9,7 @@ def run():
     COLUMNS_CONFIG = {
         "US": {
             "columns": [
-                "Channel", "Material Bank SKU", "Family Id", "Manufacturer Sku",
+                "Channels", "Material Bank SKU", "Family Id", "Manufacturer Sku",
                 "Product Type", "Product Name", "Color Name", "Color Number",
                 "Configurable Color", "Primary Child", "Available Sizes", "Available Finishes","Available Thicknesses",  "Image Url", "Url Key",
                 "Color Variety", "Color Saturation", "Primary Color Family"
@@ -17,7 +17,7 @@ def run():
         },
         "EU": {
             "columns": [
-                "Channel", "Material Bank SKU", "Family Id", "Manufacturer Sku EU",
+                "Channels", "Material Bank SKU", "Family Id", "Manufacturer Sku EU",
                 "Product Type", "Product Name", "Color Name", "Color Number",
                 "Configurable Color", "Primary Child", "Available Sizes", "Available Finishes","Available Thicknesses", "Image Url", "Url Key",
                 "Color Variety", "Color Saturation", "Primary Color Family"

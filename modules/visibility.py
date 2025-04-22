@@ -12,13 +12,13 @@ def run():
             "filter_columns": ["Material Bank SKU", "Enable Product", "Family Id", "Manufacturer Sample Id",
                              "Product Finish Type", "Associated Finishes", "Manufacturer Sku", "Product Type",
                              "Stealth SKU", "Visibility", "Hide From Product View", "Approximate Sample Size",
-                             "State Permission", "Product Name", "Channel"]
+                             "State Permission", "Product Name", "Channels"]
         },
         "EU": {
             "filter_columns": ["Material Bank SKU", "Enable Product", "Family Id", "Manufacturer Sample Id",
                              "Product Finish Type", "Associated Finishes", "Manufacturer Sku EU", "Product Type",
                              "Stealth SKU", "Visibility EU", "Hide From Product View EU", "Approximate Sample Size",
-                             "State Permission", "Product Name", "Channel"]
+                             "State Permission", "Product Name", "Channels"]
         }
     }
     

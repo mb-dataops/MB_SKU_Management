@@ -9,13 +9,13 @@ def run():
     RETIRE_COLUMNS = {
         "US": {
             "retire_columns": [
-                "Channel", "Material Bank SKU", "Family Id", "Manufacturer Sku",
+                "Channels", "Material Bank SKU", "Family Id", "Manufacturer Sku",
                 "Product Type", "Product Name", "Primary Child", "Url Key",
                 "Stealth SKU", "Retired Sku", "Admin Notes", "Inventory Disposition",
                 "Visibility", "Hide From Product View"
             ],
             "reassign_columns": [
-                "Channel", "Material Bank SKU", "Family Id", "Manufacturer Sku",
+                "Channels", "Material Bank SKU", "Family Id", "Manufacturer Sku",
                 "Product Type", "Product Name", "Color Name", "Color Number",
                 "Configurable Color", "Primary Child", "Image Url", "Url Key", "Primary Color Family",
                 "Color Variety", "Color Saturation", "Retired Sku", "Admin Notes",
@@ -26,13 +26,13 @@ def run():
         },
         "EU": {
             "retire_columns": [
-                "Channel", "Material Bank SKU", "Family Id", "Manufacturer Sku EU",
+                "Channels", "Material Bank SKU", "Family Id", "Manufacturer Sku EU",
                 "Product Type", "Product Name", "Primary Child", "Url Key",
                 "Stealth SKU", "Retired Sku", "Admin Notes", "Inventory Disposition",
                 "Visibility EU", "Hide From Product View EU"
             ],
             "reassign_columns": [
-                "Channel", "Material Bank SKU", "Family Id", "Manufacturer Sku EU",
+                "Channels", "Material Bank SKU", "Family Id", "Manufacturer Sku EU",
                 "Product Type", "Product Name", "Color Name", "Color Number",
                 "Configurable Color", "Primary Child", "Image Url", "Url Key", "Primary Color Family",
                 "Color Variety", "Color Saturation", "Retired Sku", "Admin Notes",
